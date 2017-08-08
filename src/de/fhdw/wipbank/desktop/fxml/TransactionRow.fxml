@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="213.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="30.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="85.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="76.0" minWidth="10.0" prefWidth="76.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+      <Label id="labelDay" fx:id="labelDay" text="01" GridPane.halignment="RIGHT">
+         <GridPane.margin>
+            <Insets right="5.0" />
+         </GridPane.margin>
+      </Label>
+        <Label id="labelFromTo" fx:id="labelFromTo" text="Max Mustermann" GridPane.columnIndex="1" />
+        <Label id="labelAmount" fx:id="labelAmount" text="1234,56" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+         <GridPane.margin>
+            <Insets right="5.0" />
+         </GridPane.margin></Label>
+      <Label id="labelMonth" fx:id="labelMonth" text="AUG" GridPane.rowIndex="1" />
+      <Label id="labelRef" fx:id="labelRef" text="Referenz" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    </children>
+</GridPane>
