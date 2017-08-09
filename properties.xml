@@ -16,6 +16,18 @@
       "number" : "1003",&#13;
       "owner" : "Alex"&#13;
     },&#13;
+    "transactionDate" : "2017-08-09T18:55:03.971+02:00"&#13;
+  }, {&#13;
+    "amount" : 1234.56,&#13;
+    "receiver" : {&#13;
+      "number" : "1000",&#13;
+      "owner" : "Daniel"&#13;
+    },&#13;
+    "reference" : "Bonus",&#13;
+    "sender" : {&#13;
+      "number" : "1003",&#13;
+      "owner" : "Alex"&#13;
+    },&#13;
     "transactionDate" : "2017-08-08T21:51:29.134+02:00"&#13;
   }, {&#13;
     "amount" : 1234.56,&#13;
