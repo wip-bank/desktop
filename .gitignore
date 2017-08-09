@@ -24,6 +24,3 @@ bin/
 *.ipr
 *.iws
 *.idea
-
-# Derby
-database/
