@@ -24,3 +24,4 @@ bin/
 *.ipr
 *.iws
 *.idea
+/properties.xml
