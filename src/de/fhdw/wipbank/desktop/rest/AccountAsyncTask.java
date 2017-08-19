@@ -1,4 +1,4 @@
-package de.fhdw.wipbank.desktop.account;
+package de.fhdw.wipbank.desktop.rest;
 
 import java.io.IOException;
 
@@ -16,10 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import de.fhdw.wipbank.desktop.model.Account;
+import de.fhdw.wipbank.desktop.service.AccountService;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
 import javafx.util.Pair;
 
-@SuppressWarnings("deprecation")
 public class AccountAsyncTask {
 
 	private String url;

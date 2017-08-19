@@ -10,16 +10,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import de.fhdw.wipbank.desktop.account.AccountService;
+import de.fhdw.wipbank.desktop.main.Main;
 import de.fhdw.wipbank.desktop.model.Account;
 import de.fhdw.wipbank.desktop.model.Transaction;
+import de.fhdw.wipbank.desktop.rest.AccountAsyncTask;
+import de.fhdw.wipbank.desktop.service.AccountService;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 /**
@@ -28,18 +34,18 @@ import javafx.scene.paint.Color;
  * @author Daniel
  *
  */
-public class TransactionListController implements Initializable {
+public class TransactionListController implements Initializable, AccountAsyncTask.OnAccountUpdateListener {
+
+	@FXML
+	private AnchorPane anchorPaneTransactionList;
 
 	@FXML
 	private ListView<Transaction> listView;
 
 	private ObservableList<Transaction> transactionObservableList;
 
-    @FXML
-    private Label labelBalance;
-	
 	@FXML
-	private Label labelID;
+	private Label labelBalance;
 
 	@FXML
 	private Label labelSender;
@@ -56,6 +62,12 @@ public class TransactionListController implements Initializable {
 	@FXML
 	private Label labelTransactionDate;
 
+	@FXML
+	private Button btnNewTransaction;
+
+	@FXML
+	private Button btnRefresh;
+
 	public TransactionListController() {
 
 		transactionObservableList = FXCollections.observableArrayList();
@@ -69,42 +81,44 @@ public class TransactionListController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		listView.setItems(transactionObservableList);
 		listView.setCellFactory(transactionListView -> new TransactionRow());
-		
+
 		List<Transaction> transactions;
-        Account account = AccountService.getAccount();
-        transactions = account.getTransactions();
+		Account account = AccountService.getAccount();
+		transactions = account.getTransactions();
 
-        if (transactions == null){
-            transactions = new ArrayList<Transaction>();
-        }
+		if (transactions == null) {
+			transactions = new ArrayList<Transaction>();
+		}
 		BigDecimal balance = new BigDecimal(0);
-        for (Transaction transaction : transactions) {
-            if(transaction.getSender().getNumber().equals(account.getNumber()))
-                // Benutzer überweist Geld an wen anders
-                balance = balance.subtract(transaction.getAmount());
-            else
-                // Benutzer bekommt Geld
-                balance = balance.add(transaction.getAmount());
-        }
-        switch(balance.compareTo(new BigDecimal(0))) {
-            case 1:
-            	labelBalance.setTextFill(Color.web("#2e7d32"));
-                break;
-            case -1:
-            	labelBalance.setTextFill(Color.web("#b71c1c"));
-                break;
-            case 0:
-            	labelBalance.setTextFill(Color.web("#212121"));
-                break;
-        }
+		for (Transaction transaction : transactions) {
+			if (transaction.getSender().getNumber().equals(account.getNumber()))
+				// Benutzer überweist Geld an wen anders
+				balance = balance.subtract(transaction.getAmount());
+			else
+				// Benutzer bekommt Geld
+				balance = balance.add(transaction.getAmount());
+		}
+		switch (balance.compareTo(new BigDecimal(0))) {
+		case 1:
+			labelBalance.setTextFill(Color.web("#2e7d32"));
+			break;
+		case -1:
+			labelBalance.setTextFill(Color.web("#b71c1c"));
+			break;
+		case 0:
+			labelBalance.setTextFill(Color.web("#212121"));
+			break;
+		}
 
-        NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
-        formatter.setMinimumFractionDigits(2);
-        labelBalance.setText(formatter.format(balance));
-		
-		
+		NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+		formatter.setMinimumFractionDigits(2);
+		labelBalance.setText(formatter.format(balance));
+
 		listView.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> showTransactionDetails(newValue));
+
+		// Das erste Listenelement auswählen
+		listView.getSelectionModel().select(0);
 
 	}
 
@@ -140,7 +154,6 @@ public class TransactionListController implements Initializable {
 			DateFormat dateFormatter = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.GERMANY);
 			labelTransactionDate.setText(dateFormatter.format(transaction.getTransactionDate()));
 		} else {
-			labelID.setText("");
 			labelSender.setText("");
 			labelReceiver.setText("");
 			labelAmount.setText("");
@@ -148,6 +161,38 @@ public class TransactionListController implements Initializable {
 			labelTransactionDate.setText("");
 
 		}
+	}
+
+	@FXML
+	void onBtnNewTransactionClicked(ActionEvent event) {
+		try {
+			AnchorPane newTransaction = (AnchorPane) FXMLLoader
+					.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/NewTransaction.fxml"));
+			Main.getRootLayout().setCenter(newTransaction);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@FXML
+	void onBtnRefreshClicked(ActionEvent event) {
+		new AccountAsyncTask(this).execute();
+	}
+
+	@Override
+	public void onAccountUpdateSuccess() {
+		transactionObservableList.clear();
+		transactionObservableList.addAll(AccountService.getAccount().getTransactions());
+		// Das erste Listenelement auswählen
+		listView.getSelectionModel().select(0);
+
+	}
+
+	@Override
+	public void onAccountUpdateError(String errorMsg) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

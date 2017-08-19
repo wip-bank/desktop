@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fhdw.wipbank.desktop.controller.NewTransactionController">
+   <children>
+      <Label alignment="CENTER" layoutX="164.0" layoutY="23.0" prefHeight="19.0" prefWidth="500.0" text="Bitte den Empfänger, den Betrag und eine Referenz angeben." textAlignment="CENTER" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+      <TextField fx:id="edtReceiverNumber" alignment="CENTER" layoutX="226.0" layoutY="52.0" promptText="Account-Number" />
+      <TextField fx:id="edtAmount" alignment="CENTER" layoutX="226.0" layoutY="86.0" promptText="0.00" />
+      <TextField fx:id="edtReference" alignment="CENTER" layoutX="226.0" layoutY="119.0" promptText="Referenz" />
+      <ButtonBar buttonMinWidth="100.0" layoutX="54.0" layoutY="250.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <buttons>
+            <Button fx:id="btnExecute" mnemonicParsing="false" onAction="#onBtnExecuteClicked" text="Überweisen" />
+          <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onBtnCancelClicked" text="Abbruch" />
+        </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>

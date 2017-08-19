@@ -5,7 +5,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-@XmlRootElement
+@XmlRootElement(name = "account")
 public class Account {
     private int id;
     private String owner;
@@ -43,5 +43,9 @@ public class Account {
 
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public String toString() {
+        return "Account[owner: " + owner + "; number: " + number + "]";
     }
 }

@@ -5,6 +5,9 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import de.fhdw.wipbank.desktop.util.DateTimeAdapter;
 
 @XmlRootElement
 public class Transaction {
@@ -13,6 +16,7 @@ public class Transaction {
     private Account receiver;
     private BigDecimal amount;
     private String reference;
+    
     private Date transactionDate;
 
     @XmlTransient
@@ -56,12 +60,17 @@ public class Transaction {
         this.reference = reference;
     }
 
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     public Date getTransactionDate() {
         return transactionDate;
     }
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public String toString() {
+        return "Transaction[sender: " + sender.getNumber() + "; receiver: " + receiver.getNumber() + "; amount: " + amount + "]";
     }
 
 }

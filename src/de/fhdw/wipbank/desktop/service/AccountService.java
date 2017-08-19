@@ -1,4 +1,4 @@
-package de.fhdw.wipbank.desktop.account;
+package de.fhdw.wipbank.desktop.service;
 
 
 import de.fhdw.wipbank.desktop.model.Account;
