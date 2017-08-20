@@ -4,25 +4,13 @@
 <comment>WIP-Bank Application configuration properties</comment>
 <entry key="server_ip">192.168.178.38</entry>
 <entry key="backup_account">{&#13;
-  "number" : "1000",&#13;
-  "owner" : "Daniel",&#13;
+  "number" : "1001",&#13;
+  "owner" : "Philipp",&#13;
   "transactions" : [ {&#13;
-    "amount" : 10.00,&#13;
-    "receiver" : {&#13;
-      "number" : "1002",&#13;
-      "owner" : "Jannis"&#13;
-    },&#13;
-    "reference" : "Test",&#13;
-    "sender" : {&#13;
-      "number" : "1000",&#13;
-      "owner" : "Daniel"&#13;
-    },&#13;
-    "transactionDate" : "2017-08-20T18:52:06+0200"&#13;
-  }, {&#13;
     "amount" : 1000000.00,&#13;
     "receiver" : {&#13;
-      "number" : "1000",&#13;
-      "owner" : "Daniel"&#13;
+      "number" : "1001",&#13;
+      "owner" : "Philipp"&#13;
     },&#13;
     "reference" : "Testtransaktion",&#13;
     "sender" : {&#13;
@@ -32,5 +20,5 @@
     "transactionDate" : "2017-08-20T17:45:57+0200"&#13;
   } ]&#13;
 }</entry>
-<entry key="accountnumber">1000</entry>
+<entry key="accountnumber">1001</entry>
 </properties>
