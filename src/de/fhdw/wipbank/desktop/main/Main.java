@@ -3,6 +3,7 @@ package de.fhdw.wipbank.desktop.main;
 import java.io.IOException;
 
 import de.fhdw.wipbank.desktop.rest.AccountAsyncTask;
+import de.fhdw.wipbank.desktop.service.PreferenceService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,15 +22,21 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 	@Override
 	public void start(Stage primaryStage) {
 		
-		new AccountAsyncTask(this).execute();
+		
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("WIP-Bank");
 		Main.primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/res/icon.png")));
 
 		initRootLayout();
 
-		
-		showTransactionList();
+		PreferenceService preferenceService = new PreferenceService();
+		if (preferenceService.getAccountNumber().equals("") || preferenceService.getServerIP().equals("")) {
+			// Beim ersten Start muss der Benutzer Account-Number und Server-IP eingeben
+			showSettings();
+		}else {
+			new AccountAsyncTask(this).execute();
+			showTransactionList();
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -62,6 +69,15 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 		try {
 			AnchorPane transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
 			rootLayout.setCenter(transactionList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showSettings() {
+		try {
+			AnchorPane settings = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/Settings.fxml"));
+			rootLayout.setCenter(settings);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

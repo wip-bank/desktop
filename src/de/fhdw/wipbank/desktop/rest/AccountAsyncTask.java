@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import de.fhdw.wipbank.desktop.model.Account;
+import de.fhdw.wipbank.desktop.model.ErrorResponse;
 import de.fhdw.wipbank.desktop.service.AccountService;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
 import javafx.util.Pair;
@@ -26,6 +27,8 @@ public class AccountAsyncTask {
 	private OnAccountUpdateListener listener;
 	private String accountNumber;
 	private PreferenceService preferenceService;
+	private final String RESTSTANDARDPORT = "9998";
+	private final String URL_TEMPLATE = "http://%s/rest/account/%s/";
 
 	/**
 	 * This interface must be implemented by classes that use the AccountAsyncTask
@@ -44,51 +47,51 @@ public class AccountAsyncTask {
 		}
 
 		// getAccountNumber
-	
-		
-		
+
 		preferenceService = new PreferenceService();
 		accountNumber = preferenceService.getAccountNumber();
 
-		url = String.format("http://localhost:9998/rest/account/%s/", accountNumber);
+		setUrl(preferenceService.getServerIP());
 	}
 
 	public void execute() {
-		Pair<String, Integer> responsePair = doInBackground();
+		Pair<String, HttpResponse> responsePair = doInBackground();
 		onPostExecute(responsePair);
 
 	}
 
-	protected Pair<String, Integer> doInBackground() {
+	protected Pair<String, HttpResponse> doInBackground(Void... params) {
 		try {
 			HttpParams httpParameters = new BasicHttpParams();
 			// Set the timeout in milliseconds until a connection is established.
 			// The default value is zero, that means the timeout is not used.
-			int timeoutConnection = 3000;
+			int timeoutConnection = 1500;
 			HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
 			// Set the default socket timeout (SO_TIMEOUT)
 			// in milliseconds which is the timeout for waiting for data.
-			int timeoutSocket = 5000;
+			int timeoutSocket = 3000;
 			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 			HttpClient httpClient = new DefaultHttpClient(httpParameters);
 			HttpGet httpGet = new HttpGet(url);
+			httpGet.setHeader("Accept", "application/json"); // Akzeptiert wird ein JSON (entweder Account oder
+																// ErrorResponse)
 			HttpResponse response = httpClient.execute(httpGet);
 
-			// PrÃ¼fung, ob der Response null ist. Falls ja (z.B. falls keine Verbindung zum
-			// Server besteht)
-			// soll die Methode direkt verlassen und null zurÃ¼ckgegeben werden
+			// Prüfung, ob der ErrorResponse null ist. Falls ja (z.B. falls keine Verbindung
+			// zum Server besteht)
+			// soll die Methode direkt verlassen und null zurückgegeben werden
 			if (response == null)
 				return null;
 			int responseCode = response.getStatusLine().getStatusCode();
-			// PrÃ¼fung, ob der ResponseCode OK ist, damit ein JSON-String erwartet und
+			// Prüfung, ob der ResponseCode OK ist, damit ein JSON-String erwartet und
 			// verarbeitet werden kann
 			if (responseCode == HttpStatus.SC_OK) {
 				String json = EntityUtils.toString(response.getEntity());
-				return new Pair<String, Integer>(json, responseCode);
+				return new Pair<String, HttpResponse>(json, response);
 			}
-			// Falls der ResponseCode nicht OK ist, wird nur der ResponseCode zurÃ¼ckgegeben
+			// Falls der ResponseCode nicht OK ist, wird nur der ResponseCode zurückgegeben
 			else {
-				return new Pair<String, Integer>(null, responseCode);
+				return new Pair<String, HttpResponse>(null, response);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -96,9 +99,10 @@ public class AccountAsyncTask {
 		}
 	}
 
-	protected void onPostExecute(Pair<String, Integer> responsePair) {
+	protected void onPostExecute(Pair<String, HttpResponse> responsePair) {
 		Account account;
-		// Falls das Pair nicht null (und damit der Response auch nicht null war) sowie
+		// Falls das Pair nicht null (und damit der ErrorResponse auch nicht null war)
+		// sowie
 		// der JSON-String im Pair nicht null ist, kann weitergearbeitet werden
 		if (responsePair != null && responsePair.getKey() != null) {
 			Gson gson = new GsonBuilder().create();
@@ -127,7 +131,22 @@ public class AccountAsyncTask {
 				AccountService.setAccount(account);
 			}
 
-			String errorMsg = (responsePair != null ? String.valueOf(responsePair.getValue()) : "null");
+			String errorMsg = null;
+			if (responsePair != null) {
+				try {
+
+					// JSON in Java-Objekt konvertieren
+					ErrorResponse errorResponse = gson.fromJson(
+							EntityUtils.toString(responsePair.getValue().getEntity(), "UTF-8"), ErrorResponse.class);
+					errorMsg = errorResponse.getError();
+				} catch (IOException e) {
+					e.printStackTrace();
+					errorMsg = "Verbindung fehlgeschlagen";
+				}
+			}
+
+			if (errorMsg == null)
+				errorMsg = "Keine Verbindung zum Server";
 
 			// Notify everybody that may be interested.
 			if (listener != null) {
@@ -135,4 +154,12 @@ public class AccountAsyncTask {
 			}
 		}
 	}
+
+	public void setUrl(String ip) {
+		if (!ip.contains(":")) {
+			ip = ip + ":" + RESTSTANDARDPORT;
+		}
+		url = String.format(URL_TEMPLATE, ip, accountNumber);
+	}
+
 }

@@ -33,6 +33,7 @@ public class TransactionAsyncTask {
 	private PreferenceService preferenceService;
 	private Transaction transaction;
 	private final String RESTSTANDARDPORT = "9998";
+	private final String URL_TEMPLATE = "http://%s/rest/transaction";
 
 	/**
 	 * This interface must be implemented by classes that use the
@@ -55,9 +56,9 @@ public class TransactionAsyncTask {
 
 		preferenceService = new PreferenceService();
 
-		url = "http://localhost:9998/rest/transaction";
+		setUrl(preferenceService.getServerIP());
 	}
-	
+
 	public void execute() {
 		HttpResponse response = doInBackground();
 		onPostExecute(response);
@@ -89,9 +90,9 @@ public class TransactionAsyncTask {
 
 			HttpResponse response = httpClient.execute(httppost);
 
-			// PrÃ¼fung, ob der ErrorResponse null ist. Falls ja (z.B. falls keine
-			// Verbindung zum Server besteht)
-			// soll die Methode direkt verlassen und null zurÃ¼ckgegeben werden
+			// Prüfung, ob der ErrorResponse null ist. Falls ja (z.B. falls keine Verbindung
+			// zum Server besteht)
+			// soll die Methode direkt verlassen und null zurückgegeben werden
 			if (response == null)
 				return null;
 
@@ -128,6 +129,13 @@ public class TransactionAsyncTask {
 
 		}
 
+	}
+
+	public void setUrl(String ip) {
+		if (!ip.contains(":")) {
+			ip = ip + ":" + RESTSTANDARDPORT;
+		}
+		url = String.format(URL_TEMPLATE, ip);
 	}
 
 }

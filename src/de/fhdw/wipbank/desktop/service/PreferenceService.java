@@ -9,25 +9,29 @@ import java.util.Properties;
 
 public class PreferenceService {
 
-	private static final String pref_accountNumber_key = "accountNumber";
-	private static final String pref_backup_account_key = "backupAccount";
+	private static final String pref_accountNumber_key = "accountnumber";
+	private static final String pref_backup_account_key = "backup_account";
+	private static final String pref_server_ip_key = "server_ip";
 	
 	private String accountNumber;
 	private String backupAccount;
+	private String serverIP;
 	
 	public PreferenceService() {
 		accountNumber = "";
 		backupAccount = "";
+		serverIP = "";
 	}
 	
 	/**
 	 * http://www.drdobbs.com/jvm/readwrite-properties-files-in-java/231000005
 	 */
-	public void saveParamChangesAsXML() {
+	public synchronized void saveParamChangesAsXML() {
 	    try {
 	        Properties props = new Properties();
 	        props.setProperty(pref_accountNumber_key, accountNumber);
 	        props.setProperty(pref_backup_account_key, backupAccount);
+	        props.setProperty(pref_server_ip_key, serverIP);
 	        File f = new File("properties.xml");
 	        OutputStream out = new FileOutputStream( f );
 	        props.storeToXML(out, "WIP-Bank Application configuration properties");
@@ -37,7 +41,7 @@ public class PreferenceService {
 	    }
 	}
 	
-	public void loadProperties() {
+	public synchronized void loadProperties() {
 	    Properties props = new Properties();
 	    InputStream is = null;
 	 
@@ -61,6 +65,7 @@ public class PreferenceService {
 	 
 	    accountNumber = props.getProperty(pref_accountNumber_key, "");
 	    backupAccount = props.getProperty(pref_backup_account_key, "");
+	    serverIP = props.getProperty(pref_server_ip_key, "");
 	}
 
 	public String getAccountNumber() {
@@ -80,6 +85,16 @@ public class PreferenceService {
 
 	public void setBackupAccount(String backupAccount) {
 		this.backupAccount = backupAccount;
+		saveParamChangesAsXML();
+	}
+
+	public String getServerIP() {
+		loadProperties();
+		return serverIP;
+	}
+
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
 		saveParamChangesAsXML();
 	}
 	
