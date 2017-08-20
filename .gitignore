@@ -26,4 +26,4 @@ bin/
 *.idea
 
 # Properties
-/properties.xml
+properties.xml
