@@ -77,8 +77,13 @@ public class SettingsController implements Initializable, AccountAsyncTask.OnAcc
 			
 			AnchorPane transactionList = Main.getTransactionList();
 			
-			if (transactionList == null)
-				transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+			if (transactionList == null) {
+				// Wird ausgeführt falls transactionList = null -> Beim allerersten Start :)
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+				transactionList = fxmlLoader.load();
+				Main.setTransactionList(transactionList);
+				Main.setTransactionListController(fxmlLoader.getController());
+			}
 			
 			Main.getRootLayout().setCenter(transactionList);
 		} catch (Exception e) {

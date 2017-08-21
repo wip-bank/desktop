@@ -120,12 +120,17 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 		return transactionList;
 	}
 
+	public static void setTransactionList(AnchorPane transactionList) {
+		Main.transactionList = transactionList;
+	}
+
 	public static TransactionListController getTransactionListController() {
 		return transactionListController;
 	}
-	
-	
-    
+
+	public static void setTransactionListController(TransactionListController transactionListController) {
+		Main.transactionListController = transactionListController;
+	}
     
 
 }
