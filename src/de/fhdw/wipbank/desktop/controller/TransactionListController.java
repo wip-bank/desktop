@@ -16,6 +16,7 @@ import de.fhdw.wipbank.desktop.model.Transaction;
 import de.fhdw.wipbank.desktop.rest.AccountAsyncTask;
 import de.fhdw.wipbank.desktop.service.AccountService;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
+import de.fhdw.wipbank.desktop.util.CustomAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,8 +24,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
@@ -177,8 +180,8 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 	@FXML
 	void onBtnRefreshClicked(ActionEvent event) {
-		new AccountAsyncTask(this).execute();
-	}
+		update();
+	}	
 
 	@Override
 	public void onAccountUpdateSuccess() {
@@ -191,8 +194,12 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 	@Override
 	public void onAccountUpdateError(String errorMsg) {
-		// TODO Auto-generated method stub
+		new CustomAlert(AlertType.ERROR, errorMsg, ButtonType.OK).showAndWait();
 
+	}
+	
+	public void update() {
+		new AccountAsyncTask(this).execute();
 	}
 
 }

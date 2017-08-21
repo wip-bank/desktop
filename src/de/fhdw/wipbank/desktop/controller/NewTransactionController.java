@@ -7,17 +7,15 @@ import de.fhdw.wipbank.desktop.model.Account;
 import de.fhdw.wipbank.desktop.model.Transaction;
 import de.fhdw.wipbank.desktop.rest.TransactionAsyncTask;
 import de.fhdw.wipbank.desktop.service.AccountService;
+import de.fhdw.wipbank.desktop.util.CustomAlert;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class NewTransactionController implements TransactionAsyncTask.OnTransactionExecuteListener {
 
@@ -57,38 +55,32 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 
 	}
 	
+	@FXML
+	void onBtnCancelClicked(ActionEvent event) {
+		backToTransactionList();
+	}
+	
 	private void backToTransactionList() {
 		try {
-			AnchorPane transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+			//AnchorPane transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+			AnchorPane transactionList = Main.getTransactionList();
+			Main.getTransactionListController().update();
 			Main.getRootLayout().setCenter(transactionList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	@FXML
-	void onBtnCancelClicked(ActionEvent event) {
-		backToTransactionList();
-	}
-
 	@Override
 	public void onTransactionSuccess() {
-		// TODO Auto-generated method stub
-		Alert alert = new Alert(AlertType.INFORMATION, "Transaktion erfolgreich.", ButtonType.OK);
-		
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new Image(Main.class.getResourceAsStream("/res/icon.png")));
-		
-		alert.show();
+		new CustomAlert(AlertType.INFORMATION, "Transaktion erfolgreich", ButtonType.OK).showAndWait();
 		backToTransactionList();
-		
-
 	}
 
 	@Override
 	public void onTransactionError(String response) {
-		// TODO Auto-generated method stub
+		new CustomAlert(AlertType.ERROR, response, ButtonType.OK).show();
 
 	}
-
+	
 }

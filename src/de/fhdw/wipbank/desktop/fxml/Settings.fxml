@@ -13,8 +13,8 @@
       <TextField fx:id="edtServerIP" alignment="CENTER" layoutX="226.0" layoutY="86.0" promptText="Server-IP" />
       <ButtonBar buttonMinWidth="100.0" layoutX="54.0" layoutY="250.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <buttons>
-            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onBtnSaveClicked" text="Speichern" />
-          <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onBtnCancelClicked" text="Abbruch" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onBtnSaveClicked" text="OK" />
+          <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onBtnCancelClicked" text="Abbrechen" />
         </buttons>
       </ButtonBar>
    </children>

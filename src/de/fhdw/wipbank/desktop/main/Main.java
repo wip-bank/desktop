@@ -2,11 +2,15 @@ package de.fhdw.wipbank.desktop.main;
 
 import java.io.IOException;
 
+import de.fhdw.wipbank.desktop.controller.TransactionListController;
 import de.fhdw.wipbank.desktop.rest.AccountAsyncTask;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
+import de.fhdw.wipbank.desktop.util.CustomAlert;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -19,10 +23,13 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 	private static Stage primaryStage;
 	private static BorderPane rootLayout;
 
+	private static AnchorPane transactionList;
+	private static TransactionListController transactionListController;
+
+	
 	@Override
 	public void start(Stage primaryStage) {
-		
-		
+
 		Main.primaryStage = primaryStage;
 		Main.primaryStage.setTitle("WIP-Bank");
 		Main.primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/res/icon.png")));
@@ -35,7 +42,6 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 			showSettings();
 		}else {
 			new AccountAsyncTask(this).execute();
-			showTransactionList();
 		}
 	}
 	
@@ -67,7 +73,9 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 
 	public void showTransactionList() {
 		try {
-			AnchorPane transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+			transactionList = fxmlLoader.load();
+			transactionListController = fxmlLoader.getController();
 			rootLayout.setCenter(transactionList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,14 +94,14 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 	
 	@Override
 	public void onAccountUpdateSuccess() {
-		// TODO Auto-generated method stub
+		showTransactionList();
 
 	}
 
 	@Override
 	public void onAccountUpdateError(String errorMsg) {
-		// TODO Auto-generated method stub
-
+		new CustomAlert(AlertType.ERROR, errorMsg, ButtonType.OK).showAndWait();
+		showSettings();
 	}
 	
 	 /**
@@ -107,6 +115,16 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 	public static BorderPane getRootLayout() {
 		return rootLayout;
 	}
+
+	public static AnchorPane getTransactionList() {
+		return transactionList;
+	}
+
+	public static TransactionListController getTransactionListController() {
+		return transactionListController;
+	}
+	
+	
     
     
 

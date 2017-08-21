@@ -15,7 +15,7 @@
       <ButtonBar buttonMinWidth="100.0" layoutX="54.0" layoutY="250.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <buttons>
             <Button fx:id="btnExecute" mnemonicParsing="false" onAction="#onBtnExecuteClicked" text="Überweisen" />
-          <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onBtnCancelClicked" text="Abbruch" />
+          <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onBtnCancelClicked" text="Abbrechen" />
         </buttons>
       </ButtonBar>
    </children>

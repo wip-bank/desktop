@@ -6,12 +6,15 @@ import java.util.ResourceBundle;
 import de.fhdw.wipbank.desktop.main.Main;
 import de.fhdw.wipbank.desktop.rest.AccountAsyncTask;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
+import de.fhdw.wipbank.desktop.util.CustomAlert;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -32,6 +35,16 @@ public class SettingsController implements Initializable, AccountAsyncTask.OnAcc
 	private Node caller;
 	
 	private PreferenceService preferenceService;
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// Speichern wer der Caller ist
+		caller = Main.getRootLayout().getCenter();
+		preferenceService = new PreferenceService();
+		
+		edtAccountNumber.setText(preferenceService.getAccountNumber());
+		edtServerIP.setText(preferenceService.getServerIP());
+	}
 
 	@FXML
 	void onBtnCancelClicked(ActionEvent event) {
@@ -48,8 +61,9 @@ public class SettingsController implements Initializable, AccountAsyncTask.OnAcc
 	private void backToCaller() {
 		try {
 			if (caller == null) {
-				new AccountAsyncTask(this).execute();
+				new AccountAsyncTask(this).execute(); // FirstStart -> Initiales Laden des Accounts, dann Transaktionsliste öffnen (siehe unten)
 			} else {
+				Main.getTransactionListController().update(); // Transaktionliste updaten
 				Main.getRootLayout().setCenter(caller);
 			}
 		} catch (Exception e) {
@@ -58,20 +72,14 @@ public class SettingsController implements Initializable, AccountAsyncTask.OnAcc
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// Speichern wer der Caller ist
-		caller = Main.getRootLayout().getCenter();
-		preferenceService = new PreferenceService();
-		
-		edtAccountNumber.setText(preferenceService.getAccountNumber());
-		edtServerIP.setText(preferenceService.getServerIP());
-	}
-
-	@Override
 	public void onAccountUpdateSuccess() {
 		try {
-			AnchorPane transactionList = (AnchorPane) FXMLLoader
-					.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+			
+			AnchorPane transactionList = Main.getTransactionList();
+			
+			if (transactionList == null)
+				transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
+			
 			Main.getRootLayout().setCenter(transactionList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,7 +88,7 @@ public class SettingsController implements Initializable, AccountAsyncTask.OnAcc
 
 	@Override
 	public void onAccountUpdateError(String errorMsg) {
-
+		new CustomAlert(AlertType.ERROR, errorMsg, ButtonType.OK).showAndWait();
 	}
 
 }
