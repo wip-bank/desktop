@@ -17,6 +17,7 @@ import de.fhdw.wipbank.desktop.rest.AccountAsyncTask;
 import de.fhdw.wipbank.desktop.service.AccountService;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
 import de.fhdw.wipbank.desktop.util.CustomAlert;
+import de.fhdw.wipbank.desktop.util.TransactionSorter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
