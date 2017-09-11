@@ -7,6 +7,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
+/**
+ * Zur Sicherung von Preferences, nach dem Modell von SharedPreferences der Android App entwickelt.
+ * Quelle: http://www.drdobbs.com/jvm/readwrite-properties-files-in-java/231000005
+ * 
+ * @author Daniel
+ *
+ */
 public class PreferenceService {
 
 	private static final String pref_accountNumber_key = "accountnumber";
@@ -17,6 +24,9 @@ public class PreferenceService {
 	private String backupAccount;
 	private String serverIP;
 	
+	/**
+	 * Kontruktor für einen PreferenceService.
+	 */
 	public PreferenceService() {
 		accountNumber = "";
 		backupAccount = "";
@@ -24,7 +34,7 @@ public class PreferenceService {
 	}
 	
 	/**
-	 * http://www.drdobbs.com/jvm/readwrite-properties-files-in-java/231000005
+	 * Speichert die Werte der Variablen in die XML Datei.
 	 */
 	public synchronized void saveParamChangesAsXML() {
 	    try {
@@ -41,6 +51,9 @@ public class PreferenceService {
 	    }
 	}
 	
+	/**
+	 * Lädt die Werte der preferences und speichert sie in die Variablen.
+	 */
 	public synchronized void loadProperties() {
 	    Properties props = new Properties();
 	    InputStream is = null;
@@ -68,31 +81,61 @@ public class PreferenceService {
 	    serverIP = props.getProperty(pref_server_ip_key, "");
 	}
 
+	/**
+	 * Gibt die AccountNumber zurück.
+	 * 
+	 * @return accountNumber
+	 */
 	public String getAccountNumber() {
 		loadProperties();
 		return accountNumber;
 	}
 
+	/**
+	 * Setzt die AccountNumber auf den übergebenen Wert.
+	 * 
+	 * @param accountNumber
+	 */
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 		saveParamChangesAsXML();
 	}
 
+	/**
+	 * Gibt den BackupAccount als JSON String zurück.
+	 * 
+	 * @return backupAccount
+	 */
 	public String getBackupAccount() {
 		loadProperties();
 		return backupAccount;
 	}
 
+	/**
+	 * Setzt den BackupAccount auf den übergebenen Wert.
+	 * 
+	 * @param backupAccount
+	 */
 	public void setBackupAccount(String backupAccount) {
 		this.backupAccount = backupAccount;
 		saveParamChangesAsXML();
 	}
 
+	/**
+	 * Gibt die Server IP zurück.
+	 * 
+	 * @return
+	 */
 	public String getServerIP() {
 		loadProperties();
 		return serverIP;
 	}
 
+	/**
+	 * Setzt die Server IP auf den übergebenen Wert.
+	 * 
+	 * @param serverIP
+	 */
 	public void setServerIP(String serverIP) {
 		this.serverIP = serverIP;
 		saveParamChangesAsXML();
