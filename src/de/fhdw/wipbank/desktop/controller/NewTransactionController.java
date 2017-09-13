@@ -45,7 +45,7 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 
 		BigDecimal amount;
 		try {
-			amount = BigDecimal.valueOf(Double.valueOf(edtAmount.getText().toString()));
+			amount = new BigDecimal(edtAmount.getText());
 		} catch (NumberFormatException e) {
 			amount = BigDecimal.ZERO;
 		}
@@ -54,12 +54,12 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 		new TransactionAsyncTask(transaction, this).execute();
 
 	}
-	
+
 	@FXML
 	void onBtnCancelClicked(ActionEvent event) {
 		backToTransactionList();
 	}
-	
+
 	private void backToTransactionList() {
 		try {
 			//AnchorPane transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
@@ -70,7 +70,7 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onTransactionSuccess() {
 		new CustomAlert(AlertType.INFORMATION, "Transaktion erfolgreich", ButtonType.OK).showAndWait();
@@ -82,5 +82,5 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 		new CustomAlert(AlertType.ERROR, response, ButtonType.OK).show();
 
 	}
-	
+
 }

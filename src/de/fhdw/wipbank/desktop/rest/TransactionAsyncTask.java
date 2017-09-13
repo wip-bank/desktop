@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -18,10 +19,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import de.fhdw.wipbank.desktop.model.ErrorResponse;
 import de.fhdw.wipbank.desktop.model.Transaction;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
 import javafx.util.Pair;
@@ -60,12 +57,12 @@ public class TransactionAsyncTask {
 	}
 
 	public void execute() {
-		HttpResponse response = doInBackground();
-		onPostExecute(response);
+		Pair<Integer, String> responsePair = doInBackground();
+		onPostExecute(responsePair);
 
 	}
 
-	protected HttpResponse doInBackground() {
+	protected Pair<Integer, String> doInBackground() {
 		try {
 			HttpParams httpParameters = new BasicHttpParams();
 			// Set the timeout in milliseconds until a connection is established.
@@ -81,22 +78,22 @@ public class TransactionAsyncTask {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("senderNumber", transaction.getSender().getNumber()));
 			nameValuePairs.add(new BasicNameValuePair("receiverNumber", transaction.getReceiver().getNumber()));
-			nameValuePairs.add(new BasicNameValuePair("amount", String.valueOf(transaction.getAmount())));
+			nameValuePairs.add(new BasicNameValuePair("amount", transaction.getAmount().toPlainString()));
 			nameValuePairs.add(new BasicNameValuePair("reference", transaction.getReference()));
 			UrlEncodedFormEntity encodedFormEntity = new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8);
 			httppost.setEntity(encodedFormEntity);
-			httppost.setHeader("Accept", "application/json"); // Akzeptiert wird ein JSON (ErrorResponse falls
-																// vorhanden)
 
 			HttpResponse response = httpClient.execute(httppost);
 
-			// Prüfung, ob der ErrorResponse null ist. Falls ja (z.B. falls keine Verbindung
-			// zum Server besteht)
-			// soll die Methode direkt verlassen und null zurückgegeben werden
-			if (response == null)
-				return null;
+			//Prüfung, ob der ErrorResponse null ist. Falls ja (z.B. falls keine Verbindung zum Server besteht)
+            //soll die Methode direkt verlassen und null zurückgegeben werden
+            if (response == null) return null;
 
-			return response;
+            int responseCode = response.getStatusLine().getStatusCode();
+            HttpEntity entity = response.getEntity();
+            String responseString = EntityUtils.toString(entity, "UTF-8");
+
+            return new Pair<Integer, String>(responseCode, responseString);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -104,30 +101,20 @@ public class TransactionAsyncTask {
 		}
 	}
 
-	protected void onPostExecute(HttpResponse response) {
-		if (listener == null)
-			return;
+	protected void onPostExecute(Pair<Integer, String> responsePair) {
+		  if (listener == null)
+	            return;
 
-		if (response == null) {
-			listener.onTransactionError("Keine Verbindung zum Server");
-			return;
-		}
-		int responseCode = response.getStatusLine().getStatusCode();
+	        if (responsePair.getKey() == null || responsePair == null) {
+	            listener.onTransactionError("Keine Verbindung zum Server");
+	            return;
+	        }
 
-		if (responseCode == HttpStatus.SC_OK) {
-			listener.onTransactionSuccess();
-		} else {
-			try {
-				Gson gson = new GsonBuilder().create();
-				ErrorResponse errorResponse = gson.fromJson(EntityUtils.toString(response.getEntity(), "UTF-8"),
-						ErrorResponse.class);
-				String errorMsg = errorResponse.getError();
-				listener.onTransactionError(errorMsg);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		}
+	        if (responsePair.getKey() == HttpStatus.SC_OK) {
+	            listener.onTransactionSuccess();
+	        } else {
+	            listener.onTransactionError(responsePair.getValue());
+	        }
 
 	}
 
