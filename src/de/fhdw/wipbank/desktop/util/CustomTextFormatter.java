@@ -8,7 +8,7 @@ import javafx.scene.control.TextFormatter;
 public class CustomTextFormatter {
 
 	private final static Pattern patternAmount = Pattern.compile("^\\d*|\\d+\\,\\d*$");
-	private final static Pattern patternAccountNumber = Pattern.compile("^\\d{1,4}$");
+	private final static Pattern patternAccountNumber = Pattern.compile("^\\d{0,4}$");
 	
 	public static TextFormatter<String> getFormatterAmount() {
 		return new TextFormatter<String>((UnaryOperator<TextFormatter.Change>) change -> {
