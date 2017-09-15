@@ -10,7 +10,7 @@
    <children>
       <Label alignment="CENTER" layoutX="164.0" layoutY="23.0" prefHeight="19.0" prefWidth="500.0" text="Bitte den Empfänger, den Betrag und eine Referenz angeben." textAlignment="CENTER" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <TextField fx:id="edtReceiverNumber" alignment="CENTER" layoutX="226.0" layoutY="52.0" promptText="Account-Number" />
-      <TextField fx:id="edtAmount" alignment="CENTER" layoutX="226.0" layoutY="86.0" promptText="0.00" />
+      <TextField fx:id="edtAmount" alignment="CENTER" layoutX="226.0" layoutY="86.0" promptText="0,00" />
       <TextField fx:id="edtReference" alignment="CENTER" layoutX="226.0" layoutY="119.0" promptText="Referenz" />
       <ButtonBar buttonMinWidth="100.0" layoutX="54.0" layoutY="250.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
         <buttons>

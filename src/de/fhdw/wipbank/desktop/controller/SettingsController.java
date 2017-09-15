@@ -7,6 +7,7 @@ import de.fhdw.wipbank.desktop.main.Main;
 import de.fhdw.wipbank.desktop.rest.AccountAsyncTask;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
 import de.fhdw.wipbank.desktop.util.CustomAlert;
+import de.fhdw.wipbank.desktop.util.CustomTextFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,8 +43,12 @@ public class SettingsController implements Initializable, AccountAsyncTask.OnAcc
 		caller = Main.getRootLayout().getCenter();
 		preferenceService = new PreferenceService();
 		
+		edtAccountNumber.setTextFormatter(CustomTextFormatter.getFormatterAccountNumber());
+		
 		edtAccountNumber.setText(preferenceService.getAccountNumber());
 		edtServerIP.setText(preferenceService.getServerIP());
+		
+		btnSave.setDefaultButton(true);
 	}
 
 	@FXML

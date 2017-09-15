@@ -5,7 +5,6 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -85,6 +84,17 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 		listView.setItems(transactionObservableList);
 		listView.setCellFactory(transactionListView -> new TransactionRow());
 
+		listView.getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> showTransactionDetails(newValue));
+
+		// Das erste Listenelement auswählen
+		listView.getSelectionModel().select(0);
+		
+		updateBalance();
+
+	}
+	
+	private void updateBalance() {
 		List<Transaction> transactions;
 		Account account = AccountService.getAccount();
 		transactions = account.getTransactions();
@@ -116,13 +126,6 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 		NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
 		formatter.setMinimumFractionDigits(2);
 		labelBalance.setText(formatter.format(balance));
-
-		listView.getSelectionModel().selectedItemProperty()
-				.addListener((observable, oldValue, newValue) -> showTransactionDetails(newValue));
-
-		// Das erste Listenelement auswählen
-		listView.getSelectionModel().select(0);
-
 	}
 
 	private void showTransactionDetails(Transaction transaction) {
@@ -130,8 +133,6 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 			PreferenceService preferenceService = new PreferenceService();
 			String accountNumber = preferenceService.getAccountNumber();
-
-			Date date = transaction.getTransactionDate();
 
 			labelSender.setText(transaction.getSender().getOwner());
 			labelReceiver.setText(transaction.getReceiver().getOwner());
@@ -189,6 +190,7 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 		transactionObservableList.addAll(AccountService.getAccount().getTransactions());
 		// Das erste Listenelement auswählen
 		listView.getSelectionModel().select(0);
+		updateBalance();
 
 	}
 

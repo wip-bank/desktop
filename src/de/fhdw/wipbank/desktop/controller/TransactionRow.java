@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -49,7 +50,7 @@ public class TransactionRow extends ListCell<Transaction> {
     @Override
     protected void updateItem(Transaction transaction, boolean empty) {
         super.updateItem(transaction, empty);
-
+    	
         
         
         if(empty || transaction == null) {
@@ -103,6 +104,7 @@ public class TransactionRow extends ListCell<Transaction> {
             }
             labelRef.setText(transaction.getReference());
             labelAmount.setText(amount);
+            labelAmount.setTooltip(new Tooltip(amount));
             setText(null);
             setGraphic(gridPane);
         }

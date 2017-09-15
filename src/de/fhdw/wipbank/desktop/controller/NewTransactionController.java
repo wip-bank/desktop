@@ -1,6 +1,8 @@
 package de.fhdw.wipbank.desktop.controller;
 
 import java.math.BigDecimal;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import de.fhdw.wipbank.desktop.main.Main;
 import de.fhdw.wipbank.desktop.model.Account;
@@ -8,16 +10,19 @@ import de.fhdw.wipbank.desktop.model.Transaction;
 import de.fhdw.wipbank.desktop.rest.TransactionAsyncTask;
 import de.fhdw.wipbank.desktop.service.AccountService;
 import de.fhdw.wipbank.desktop.util.CustomAlert;
+import de.fhdw.wipbank.desktop.util.CustomTextFormatter;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
-public class NewTransactionController implements TransactionAsyncTask.OnTransactionExecuteListener {
+public class NewTransactionController implements Initializable, TransactionAsyncTask.OnTransactionExecuteListener {
 
 	@FXML
 	private TextField edtReceiverNumber;
@@ -34,6 +39,21 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 	@FXML
 	private Button btnCancel;
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		edtAmount.setTextFormatter(CustomTextFormatter.getFormatterAmount());
+		edtReceiverNumber.setTextFormatter(CustomTextFormatter.getFormatterAccountNumber());
+		
+		btnExecute.setDefaultButton(true);
+		
+//		EventHandler fireOnEnter = event -> {
+//			   if (KeyCode.ENTER.equals(event.getCode()) && event.getTarget() instanceof Button) {
+//			      ((Button) event.getTarget()).fire();
+//			   }
+//			};
+		
+	}
+	
 	@FXML
 	void onBtnExecuteClicked(ActionEvent event) {
 		Transaction transaction = new Transaction();
@@ -45,7 +65,7 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 
 		BigDecimal amount;
 		try {
-			amount = new BigDecimal(edtAmount.getText());
+			amount = new BigDecimal(edtAmount.getText().replace(",", "."));
 		} catch (NumberFormatException e) {
 			amount = BigDecimal.ZERO;
 		}
@@ -82,5 +102,7 @@ public class NewTransactionController implements TransactionAsyncTask.OnTransact
 		new CustomAlert(AlertType.ERROR, response, ButtonType.OK).show();
 
 	}
+
+	
 
 }
