@@ -123,7 +123,7 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 			break;
 		}
 
-		NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+		NumberFormat formatter = NumberFormat.getInstance(Locale.US);
 		formatter.setMinimumFractionDigits(2);
 		labelBalance.setText(formatter.format(balance));
 	}

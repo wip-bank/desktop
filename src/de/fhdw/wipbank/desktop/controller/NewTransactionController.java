@@ -65,7 +65,7 @@ public class NewTransactionController implements Initializable, TransactionAsync
 
 		BigDecimal amount;
 		try {
-			amount = new BigDecimal(edtAmount.getText().replace(",", "."));
+			amount = new BigDecimal(edtAmount.getText());
 		} catch (NumberFormatException e) {
 			amount = BigDecimal.ZERO;
 		}

@@ -87,7 +87,7 @@ public class TransactionRow extends ListCell<Transaction> {
             String month = new SimpleDateFormat("MMM").format(cal.getTime()).toUpperCase();
             labelDay.setText(day);
             labelMonth.setText(month);
-            NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+            NumberFormat formatter = NumberFormat.getInstance(Locale.US);
             formatter.setMinimumFractionDigits(2);
             String amount = formatter.format(transaction.getAmount());
             if(transaction.getSender().getNumber().equals(accountNumber)){
