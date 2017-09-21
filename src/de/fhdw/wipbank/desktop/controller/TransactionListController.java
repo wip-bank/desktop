@@ -134,8 +134,11 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 			PreferenceService preferenceService = new PreferenceService();
 			String accountNumber = preferenceService.getAccountNumber();
 
-			labelSender.setText(transaction.getSender().getOwner());
-			labelReceiver.setText(transaction.getReceiver().getOwner());
+			
+			String sender = String.format("%s (%s)", transaction.getSender().getOwner(), transaction.getSender().getNumber());
+			labelSender.setText(sender);
+			String receiver = String.format("%s (%s)", transaction.getReceiver().getOwner(), transaction.getReceiver().getNumber());
+	        labelReceiver.setText(receiver);
 			NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
 			formatter.setMinimumFractionDigits(2);
 			String amount = formatter.format(transaction.getAmount());
