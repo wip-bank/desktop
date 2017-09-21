@@ -139,7 +139,7 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 			labelSender.setText(sender);
 			String receiver = String.format("%s (%s)", transaction.getReceiver().getOwner(), transaction.getReceiver().getNumber());
 	        labelReceiver.setText(receiver);
-			NumberFormat formatter = NumberFormat.getInstance(Locale.GERMANY);
+			NumberFormat formatter = NumberFormat.getInstance(Locale.US);
 			formatter.setMinimumFractionDigits(2);
 			String amount = formatter.format(transaction.getAmount());
 			if (transaction.getSender().getNumber().equals(accountNumber)) {
