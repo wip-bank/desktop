@@ -20,7 +20,6 @@ import javafx.scene.paint.Color;
 
 /**
  * https://www.turais.de/how-to-custom-listview-cell-in-javafx/
- * @author Daniel
  *
  */
 public class TransactionRow extends ListCell<Transaction> {
@@ -42,17 +41,20 @@ public class TransactionRow extends ListCell<Transaction> {
 
     @FXML
     private Label labelRef;
-    
+
     private FXMLLoader mLLoader;
-    
-   
-    
+
+
+
+    /* (non-Javadoc)
+     * @see javafx.scene.control.Cell#updateItem(java.lang.Object, boolean)
+     */
     @Override
     protected void updateItem(Transaction transaction, boolean empty) {
         super.updateItem(transaction, empty);
-    	
-        
-        
+
+
+
         if(empty || transaction == null) {
 
             setText(null);
@@ -70,12 +72,12 @@ public class TransactionRow extends ListCell<Transaction> {
                 }
 
             }
-            	
-            
-            
+
+
+
         	PreferenceService preferenceService = new PreferenceService();
         	String accountNumber = preferenceService.getAccountNumber();
-        	
+
             Date date = transaction.getTransactionDate();
 
 

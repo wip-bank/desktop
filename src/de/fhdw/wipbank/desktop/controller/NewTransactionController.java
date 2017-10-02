@@ -22,6 +22,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Controller für das Fenster "Neue Transaktion".
+ */
 public class NewTransactionController implements Initializable, TransactionAsyncTask.OnTransactionExecuteListener {
 
 	@FXML
@@ -39,21 +42,23 @@ public class NewTransactionController implements Initializable, TransactionAsync
 	@FXML
 	private Button btnCancel;
 
+
+
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		edtAmount.setTextFormatter(CustomTextFormatter.getFormatterAmount());
 		edtReceiverNumber.setTextFormatter(CustomTextFormatter.getFormatterAccountNumber());
-		
+
 		btnExecute.setDefaultButton(true);
-		
-//		EventHandler fireOnEnter = event -> {
-//			   if (KeyCode.ENTER.equals(event.getCode()) && event.getTarget() instanceof Button) {
-//			      ((Button) event.getTarget()).fire();
-//			   }
-//			};
-		
 	}
-	
+
+	/** Verarbeitung von Button-Aufrufen.
+	 *
+	 * @param event Eingehendes Event
+	 */
 	@FXML
 	void onBtnExecuteClicked(ActionEvent event) {
 		Transaction transaction = new Transaction();
@@ -75,11 +80,19 @@ public class NewTransactionController implements Initializable, TransactionAsync
 
 	}
 
+	/** Verarbeitung des Cancel-Buttons.
+	 *
+	 * @param event Eingehendes Event
+	 */
 	@FXML
 	void onBtnCancelClicked(ActionEvent event) {
 		backToTransactionList();
 	}
 
+
+	/** Geht zurück zur TranskationList.
+	 *
+	 */
 	private void backToTransactionList() {
 		try {
 			//AnchorPane transactionList = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
@@ -91,18 +104,24 @@ public class NewTransactionController implements Initializable, TransactionAsync
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.fhdw.wipbank.desktop.rest.TransactionAsyncTask.OnTransactionExecuteListener#onTransactionSuccess()
+	 */
 	@Override
 	public void onTransactionSuccess() {
 		new CustomAlert(AlertType.INFORMATION, "Transaktion erfolgreich", ButtonType.OK).showAndWait();
 		backToTransactionList();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.fhdw.wipbank.desktop.rest.TransactionAsyncTask.OnTransactionExecuteListener#onTransactionError(java.lang.String)
+	 */
 	@Override
 	public void onTransactionError(String response) {
 		new CustomAlert(AlertType.ERROR, response, ButtonType.OK).show();
 
 	}
 
-	
+
 
 }

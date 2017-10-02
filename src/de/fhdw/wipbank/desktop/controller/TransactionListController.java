@@ -32,8 +32,10 @@ import javafx.scene.paint.Color;
 
 /**
  * Quelle: https://www.turais.de/how-to-custom-listview-cell-in-java
- * 
- * @author Daniel
+ *
+ */
+/**
+ * @author sawenko
  *
  */
 public class TransactionListController implements Initializable, AccountAsyncTask.OnAccountUpdateListener {
@@ -70,6 +72,9 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 	@FXML
 	private Button btnRefresh;
 
+	/**
+	 * Konstruktor für den TransactionListController
+	 */
 	public TransactionListController() {
 
 		transactionObservableList = FXCollections.observableArrayList();
@@ -79,6 +84,9 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		listView.setItems(transactionObservableList);
@@ -89,11 +97,14 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 		// Das erste Listenelement auswählen
 		listView.getSelectionModel().select(0);
-		
+
 		updateBalance();
 
 	}
-	
+
+	/**
+	 * Aktualisiert den Kontostand
+	 */
 	private void updateBalance() {
 		List<Transaction> transactions;
 		Account account = AccountService.getAccount();
@@ -128,13 +139,17 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 		labelBalance.setText(formatter.format(balance));
 	}
 
+	/** Bei Klick auf eine Transaktion in der Liste werden auf der rechte Seite die Details dieser Transaktion angezeigt.
+	 *  Diese Methode handelt alle nötigen Schritte dafür.
+	 * @param transaction Angeklickte Transaktion in der Liste
+	 */
 	private void showTransactionDetails(Transaction transaction) {
 		if (transaction != null) {
 
 			PreferenceService preferenceService = new PreferenceService();
 			String accountNumber = preferenceService.getAccountNumber();
 
-			
+
 			String sender = String.format("%s (%s)", transaction.getSender().getOwner(), transaction.getSender().getNumber());
 			labelSender.setText(sender);
 			String receiver = String.format("%s (%s)", transaction.getReceiver().getOwner(), transaction.getReceiver().getNumber());
@@ -170,6 +185,9 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 		}
 	}
 
+	/** Verarbeitung der "NewTransaction"-Buttons
+	 * @param event Eingehendes Event
+	 */
 	@FXML
 	void onBtnNewTransactionClicked(ActionEvent event) {
 		try {
@@ -182,11 +200,17 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 	}
 
+	/** Verarbeitung des Aktualisieren-Buttons
+	 * @param event Eingehendes Event
+	 */
 	@FXML
 	void onBtnRefreshClicked(ActionEvent event) {
 		update();
-	}	
+	}
 
+	/* (non-Javadoc)
+	 * @see de.fhdw.wipbank.desktop.rest.AccountAsyncTask.OnAccountUpdateListener#onAccountUpdateSuccess()
+	 */
 	@Override
 	public void onAccountUpdateSuccess() {
 		transactionObservableList.clear();
@@ -197,12 +221,19 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 	}
 
+	/* (non-Javadoc)
+	 * @see de.fhdw.wipbank.desktop.rest.AccountAsyncTask.OnAccountUpdateListener#onAccountUpdateError(java.lang.String)
+	 */
 	@Override
 	public void onAccountUpdateError(String errorMsg) {
 		new CustomAlert(AlertType.ERROR, errorMsg, ButtonType.OK).showAndWait();
 
 	}
-	
+
+	/**
+	 * Diese Methode dient zum Aufruf der REST-Schnittstelle.
+	 * Es wird ein AccountAsyncTask erzeugt und aufgerufen.
+	 */
 	public void update() {
 		new AccountAsyncTask(this).execute();
 	}

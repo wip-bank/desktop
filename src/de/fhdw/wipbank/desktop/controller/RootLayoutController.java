@@ -10,6 +10,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 
+ /**
+ * Controller für das "Root-Layout".
+ *
+ */
 public class RootLayoutController {
 
 	@FXML
@@ -18,6 +22,9 @@ public class RootLayoutController {
 	@FXML
 	private MenuItem menuSettings;
 
+	/** Verarbeitung der Aktion "Hilfe --> Über uns"
+	 * @param event Eingehendes Event
+	 */
 	@FXML
 	void onMenuAboutUsClicked(ActionEvent event) {
 		CustomAlert customAlert = new CustomAlert(AlertType.INFORMATION, "By Alexander, Daniel, Jannis & Philipp", ButtonType.OK);
@@ -26,6 +33,9 @@ public class RootLayoutController {
 		customAlert.showAndWait();
 	}
 
+	/** Verarbeitung der Aktion "Bearbeiten --> Settings"
+	 * @param event Eingehendes Event
+	 */
 	@FXML
 	void onMenuSettingsClicked(ActionEvent event) {
 		try {

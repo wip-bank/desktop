@@ -16,8 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-//Startklasse, über die die JavaFX Anwendung gestartet und konfiguriert wird
-//Vererbung der weiter unten eingesetzten Methoden von der Application-Klasse
+/**
+ * Startklasse, über die die JavaFX Anwendung gestartet und konfiguriert wird
+ * Vererbung der weiter unten eingesetzten Methoden von der Application-Klasse
+ */
 public class Main extends Application implements AccountAsyncTask.OnAccountUpdateListener {
 
 	private static Stage primaryStage;
@@ -26,7 +28,10 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 	private static AnchorPane transactionList;
 	private static TransactionListController transactionListController;
 
-	
+
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 
@@ -44,14 +49,17 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 			new AccountAsyncTask(this).execute();
 		}
 	}
-	
+
+	/** Haupt-Methode des Programms
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// Die launch-Methode führt unter anderem die oben angegeben start-Methode aus
 		Main.launch(args);
 	}
-	
+
 	/**
-	 * Initializes the root layout.
+	 * Initialisiert das Root-Layout
 	 */
 	public void initRootLayout() {
 		try {
@@ -71,6 +79,9 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 		}
 	}
 
+	/**
+	 * Öffnet die TransaktionsListe
+	 */
 	public void showTransactionList() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/TransactionList.fxml"));
@@ -81,7 +92,10 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Öffnet die Einstellungen.
+	 */
 	public void showSettings() {
 		try {
 			AnchorPane settings = (AnchorPane) FXMLLoader.load(getClass().getResource("/de/fhdw/wipbank/desktop/fxml/Settings.fxml"));
@@ -90,24 +104,26 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
+	/* (non-Javadoc)
+	 * @see de.fhdw.wipbank.desktop.rest.AccountAsyncTask.OnAccountUpdateListener#onAccountUpdateSuccess()
+	 */
 	@Override
 	public void onAccountUpdateSuccess() {
 		showTransactionList();
 
 	}
 
+	/* (non-Javadoc)
+	 * @see de.fhdw.wipbank.desktop.rest.AccountAsyncTask.OnAccountUpdateListener#onAccountUpdateError(java.lang.String)
+	 */
 	@Override
 	public void onAccountUpdateError(String errorMsg) {
 		new CustomAlert(AlertType.ERROR, errorMsg, ButtonType.OK).showAndWait();
 		showSettings();
 	}
-	
-	 /**
-     * Returns the main stage.
-     * @return
-     */
+
     public static Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -131,6 +147,6 @@ public class Main extends Application implements AccountAsyncTask.OnAccountUpdat
 	public static void setTransactionListController(TransactionListController transactionListController) {
 		Main.transactionListController = transactionListController;
 	}
-    
+
 
 }
