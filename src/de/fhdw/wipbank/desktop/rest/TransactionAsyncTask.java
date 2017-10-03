@@ -23,6 +23,9 @@ import de.fhdw.wipbank.desktop.model.Transaction;
 import de.fhdw.wipbank.desktop.service.PreferenceService;
 import javafx.util.Pair;
 
+/**
+ * Dient dem Aufruf der REST-Schnittstelle /transaction/
+ */
 public class TransactionAsyncTask {
 
 	private String url;
@@ -33,8 +36,8 @@ public class TransactionAsyncTask {
 	private final String URL_TEMPLATE = "http://%s/rest/transaction";
 
 	/**
-	 * This interface must be implemented by classes that use the
-	 * TransactionAsyncTask
+	 * Dieses Interface muss von allen Klassen implementiert werden,
+	 * die TransactionAsyncTask nutzen wollen.
 	 */
 	public interface OnTransactionExecuteListener {
 		void onTransactionSuccess();
@@ -42,6 +45,14 @@ public class TransactionAsyncTask {
 		void onTransactionError(String response);
 	}
 
+	/**
+	 * Kontruktor des TransactionAsyncTask. Bekommt eine durchzuführende Transaktion übergeben.
+	 * Bekommt die aufrufende Klasse als Objekt übergeben.
+	 * Die aufrufende Klasse muss eine Instanz der Klasse OnTransactionExecuteListener sein,
+	 * damit im späteren Verlauf die Ergebnisse an diesen Listener zurückgegeben werden können.
+	 * @param transaction
+	 * @param caller
+	 */
 	public TransactionAsyncTask(Transaction transaction, Object caller) {
 		if (caller instanceof OnTransactionExecuteListener) {
 			listener = (OnTransactionExecuteListener) caller;
@@ -56,12 +67,18 @@ public class TransactionAsyncTask {
 		setUrl(preferenceService.getServerIP());
 	}
 
+	/**
+	 * Ablauf AsyncTask aus Android nachgebaut (vereinfacht).
+	 */
 	public void execute() {
 		Pair<Integer, String> responsePair = doInBackground();
 		onPostExecute(responsePair);
 
 	}
 
+	/**
+	 * @return
+	 */
 	protected Pair<Integer, String> doInBackground() {
 		try {
 			HttpParams httpParameters = new BasicHttpParams();
