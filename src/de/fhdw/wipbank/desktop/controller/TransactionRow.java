@@ -19,8 +19,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 /**
- * https://www.turais.de/how-to-custom-listview-cell-in-javafx/
- *
+ * TransactionRow
+ * Quelle: https://www.turais.de/how-to-custom-listview-cell-in-javafx/
  */
 public class TransactionRow extends ListCell<Transaction> {
 

@@ -18,7 +18,7 @@ public class Validation {
 
     /**
      * Prüft ob die übergebene IP valide ist.
-     * 
+     *
      * @param ip zu prüfende IP
      * @return true = IP valid, false = IP invalid
      */

@@ -76,8 +76,8 @@ public class TransactionAsyncTask {
 
 	}
 
-	/**
-	 * @return
+	/** Hier wird der REST-Service /transaction/ aufgerufen.
+	 * @return Paar von Strings; der ResponseCode und der ResponseString
 	 */
 	protected Pair<Integer, String> doInBackground() {
 		try {
@@ -118,6 +118,10 @@ public class TransactionAsyncTask {
 		}
 	}
 
+	/** Hier wird das responsePair weiter verarbeitet.
+	 * Im Fehlerfall wird eine adäquate Fehlermeldung zurückgegeben. Rückgaben geschehen jeweils über den Listener.
+	 * @param responsePair Hier wird das von doInBackground() zurückgegebene String-Paar zur weiteren Verarbeitung verwendet
+	 */
 	protected void onPostExecute(Pair<Integer, String> responsePair) {
 		  if (listener == null)
 	            return;
@@ -135,6 +139,10 @@ public class TransactionAsyncTask {
 
 	}
 
+	/** Nimmt eine IP als Parameter und setzt die URL des REST-Service mit Hilfe der URL_TEMPLATE.
+	 * Falls kein Port in der IP übergeben wurde, so wird der RESTSTANDARDPORT verwendet (9998).
+	 * @param ip IP des REST-Service
+	 */
 	public void setUrl(String ip) {
 		if (!ip.contains(":")) {
 			ip = ip + ":" + RESTSTANDARDPORT;
