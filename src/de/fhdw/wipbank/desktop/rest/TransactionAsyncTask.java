@@ -50,8 +50,8 @@ public class TransactionAsyncTask {
 	 * Bekommt die aufrufende Klasse als Objekt übergeben.
 	 * Die aufrufende Klasse muss eine Instanz der Klasse OnTransactionExecuteListener sein,
 	 * damit im späteren Verlauf die Ergebnisse an diesen Listener zurückgegeben werden können.
-	 * @param transaction
-	 * @param caller
+	 * @param transaction auszuführende Transaktion
+     * @param caller Instanz der aufrufenden Klasse
 	 */
 	public TransactionAsyncTask(Transaction transaction, Object caller) {
 		if (caller instanceof OnTransactionExecuteListener) {
@@ -143,7 +143,7 @@ public class TransactionAsyncTask {
 	 * Falls kein Port in der IP übergeben wurde, so wird der RESTSTANDARDPORT verwendet (9998).
 	 * @param ip IP des REST-Service
 	 */
-	public void setUrl(String ip) {
+	private void setUrl(String ip) {
 		if (!ip.contains(":")) {
 			ip = ip + ":" + RESTSTANDARDPORT;
 		}

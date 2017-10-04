@@ -47,7 +47,7 @@ public class AccountAsyncTask {
 	 * Kontruktor des AccountAsyncTasks. Bekommt die aufrufende Klasse als Objekt übergeben.
 	 * Die aufrufende Klasse muss eine Instanz der Klasse OnAccountUpdateListener sein,
 	 * damit im späteren Verlauf die Ergebnisse an diesen Listener zurückgegeben werden können.
-	 * @param caller
+	 * @param caller Instanz der aufrufenden Klasse
 	 */
 	public AccountAsyncTask(Object caller) {
 		if (caller instanceof AccountAsyncTask.OnAccountUpdateListener) {
