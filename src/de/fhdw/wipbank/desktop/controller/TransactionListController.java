@@ -75,8 +75,12 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 
 		transactionObservableList = FXCollections.observableArrayList();
 
-		// add the User's Transactions
-		transactionObservableList.addAll(AccountService.getAccount().getTransactions());
+		List<Transaction> transactions = AccountService.getAccount().getTransactions();
+		if (transactions == null)
+			transactions = new ArrayList<Transaction>();
+
+		// Transaktionen hinzufügen
+		transactionObservableList.addAll(transactions);
 
 	}
 
@@ -210,7 +214,11 @@ public class TransactionListController implements Initializable, AccountAsyncTas
 	@Override
 	public void onAccountUpdateSuccess() {
 		transactionObservableList.clear();
-		transactionObservableList.addAll(AccountService.getAccount().getTransactions());
+		List<Transaction> transactions = AccountService.getAccount().getTransactions();
+		if (transactions == null)
+			transactions = new ArrayList<Transaction>();
+		// Transaktionen hinzufügen
+		transactionObservableList.addAll(transactions);
 		// Das erste Listenelement auswählen
 		listView.getSelectionModel().select(0);
 		updateBalance();

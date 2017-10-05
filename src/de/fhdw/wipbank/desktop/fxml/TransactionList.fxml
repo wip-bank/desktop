@@ -37,15 +37,15 @@
                     </rowConstraints>
                      <children>
                         <Label text="Sender" GridPane.rowIndex="0" />
-                        <Label fx:id="labelSender" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label fx:id="labelSender" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                         <Label text="Empfänger" GridPane.rowIndex="1" />
-                        <Label fx:id="labelReceiver" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="labelReceiver" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Betrag" GridPane.rowIndex="2" />
-                        <Label fx:id="labelAmount" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="labelAmount" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Referenz" GridPane.rowIndex="3" />
-                        <Label fx:id="labelRef" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="labelRef" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Transaktionsdatum" GridPane.rowIndex="4" />
-                        <Label fx:id="labelTransactionDate" text="Label" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="labelTransactionDate" text="" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <ButtonBar buttonMinWidth="100.0" layoutX="54.0" layoutY="250.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
