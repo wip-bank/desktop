@@ -3,7 +3,6 @@ package de.fhdw.wipbank.desktop.util;
 import de.fhdw.wipbank.desktop.main.Main;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
