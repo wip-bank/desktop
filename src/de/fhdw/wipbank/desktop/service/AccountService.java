@@ -31,8 +31,7 @@ public class AccountService {
 	 * neusten Transaktionen sind dann zuerst in der Liste. Quelle:
 	 * https://stackoverflow.com/a/5927408
 	 *
-	 * @param pAccount
-	 *            zu setzender Account
+	 * @param pAccount zu setzender Account
 	 */
 	public static void setAccount(Account pAccount) {
 
