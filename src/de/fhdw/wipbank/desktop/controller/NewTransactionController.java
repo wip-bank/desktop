@@ -22,6 +22,8 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller für das Fenster "Neue Transaktion".
+ *
+ * @author Daniel Sawenko
  */
 public class NewTransactionController implements Initializable, TransactionAsyncTask.OnTransactionExecuteListener {
 

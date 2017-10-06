@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<!-- author: Alexander Sawenko -->
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.fhdw.wipbank.desktop.controller.SettingsController">
    <children>
       <Label alignment="CENTER" layoutX="164.0" layoutY="23.0" prefHeight="19.0" prefWidth="500.0" text="Bitte Account-Number und Server-IP (optional mit Port) angeben." textAlignment="CENTER" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />

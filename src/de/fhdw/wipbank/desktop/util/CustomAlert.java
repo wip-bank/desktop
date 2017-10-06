@@ -7,7 +7,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- *	Eigene AlertBox mit App-Icon und vereinfachter Kontruktor im Vergleich zu javafx/Alert
+ * Eigene AlertBox mit App-Icon und vereinfachter Kontruktor im Vergleich zu javafx/Alert
+ * @author Daniel Sawenko
  */
 public class CustomAlert extends Alert{
 

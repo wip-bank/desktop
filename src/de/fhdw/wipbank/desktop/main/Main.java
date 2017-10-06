@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 /**
  * Startklasse, über die die JavaFX Anwendung gestartet und konfiguriert wird
  * Vererbung der weiter unten eingesetzten Methoden von der Application-Klasse
+ *
+ * @author Daniel Sawenko
  */
 public class Main extends Application implements AccountAsyncTask.OnAccountUpdateListener {
 

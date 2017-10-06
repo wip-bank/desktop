@@ -6,13 +6,18 @@ import java.util.Comparator;
 import de.fhdw.wipbank.desktop.model.Account;
 import de.fhdw.wipbank.desktop.model.Transaction;
 
+/**
+ * Stellt allgemeine Services rund um den Benutzer-Account zur Verfügung.
+ *
+ * @author Daniel Sawenko
+ */
 public class AccountService {
 
 	private static Account account;
 
 	/**
 	 * Gibt den Account des Benutzers zurück.
-	 * 
+	 *
 	 * @return Account des Benutzers
 	 */
 	public static Account getAccount() {

@@ -22,6 +22,8 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller für das "Settings-Fenster".
+ *
+ * @author Daniel Sawenko
  */
 public class SettingsController implements Initializable, AccountAsyncTask.OnAccountUpdateListener {
 

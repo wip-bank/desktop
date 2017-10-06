@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 
  /**
  * Controller für das "Root-Layout".
+ *
+ * @author Daniel Sawenko
  */
 public class RootLayoutController {
 

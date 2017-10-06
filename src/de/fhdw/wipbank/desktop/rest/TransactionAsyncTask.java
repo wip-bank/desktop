@@ -25,6 +25,8 @@ import javafx.util.Pair;
 
 /**
  * Dient dem Aufruf der REST-Schnittstelle /transaction/
+ *
+ * @author Daniel Sawenko
  */
 public class TransactionAsyncTask {
 

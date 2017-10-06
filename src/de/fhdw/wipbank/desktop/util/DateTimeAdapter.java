@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * DateTimeAdapter zur korrekten Anzeige von Zeitstempeln
  * Quelle: http://javarevisited.blogspot.de/2017/04/jaxb-date-format-example-using-annotation-XMLAdapter.html
- *
+ * @author Daniel Sawenko
  */
 public class DateTimeAdapter extends XmlAdapter<String, Date>{
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");

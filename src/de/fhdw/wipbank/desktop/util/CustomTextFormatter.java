@@ -7,6 +7,7 @@ import javafx.scene.control.TextFormatter;
 
 /**
  * Eigener TextFormatter für die JavaFX-Textfelder
+ * @author Daniel Sawenko
  */
 public class CustomTextFormatter {
 

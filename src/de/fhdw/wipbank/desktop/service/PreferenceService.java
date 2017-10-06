@@ -10,20 +10,19 @@ import java.util.Properties;
 /**
  * Zur Sicherung von Preferences, nach dem Modell von SharedPreferences der Android App entwickelt.
  * Quelle: http://www.drdobbs.com/jvm/readwrite-properties-files-in-java/231000005
- * 
- * @author Daniel
  *
+ * @author Daniel Sawenko
  */
 public class PreferenceService {
 
 	private static final String pref_accountNumber_key = "accountnumber";
 	private static final String pref_backup_account_key = "backup_account";
 	private static final String pref_server_ip_key = "server_ip";
-	
+
 	private String accountNumber;
 	private String backupAccount;
 	private String serverIP;
-	
+
 	/**
 	 * Kontruktor für einen PreferenceService.
 	 */
@@ -32,7 +31,7 @@ public class PreferenceService {
 		backupAccount = "";
 		serverIP = "";
 	}
-	
+
 	/**
 	 * Speichert die Werte der Variablen in die XML Datei.
 	 */
@@ -50,32 +49,32 @@ public class PreferenceService {
 	        e.printStackTrace();
 	    }
 	}
-	
+
 	/**
 	 * Lädt die Werte der preferences und speichert sie in die Variablen.
 	 */
 	public synchronized void loadProperties() {
 	    Properties props = new Properties();
 	    InputStream is = null;
-	 
+
 	    // First try loading from the current directory
 	    try {
 	        File f = new File("properties.xml");
 	        is = new FileInputStream( f );
 	    }
 	    catch ( Exception e ) { is = null; }
-	 
+
 	    try {
 	        if ( is == null ) {
 	            // Try loading from classpath
 	            is = getClass().getResourceAsStream("properties.xml");
 	        }
-	 
+
 	        // Try loading properties from the file (if found)
 	        props.loadFromXML( is );
 	    }
 	    catch ( Exception e ) { }
-	 
+
 	    accountNumber = props.getProperty(pref_accountNumber_key, "");
 	    backupAccount = props.getProperty(pref_backup_account_key, "");
 	    serverIP = props.getProperty(pref_server_ip_key, "");
@@ -83,7 +82,7 @@ public class PreferenceService {
 
 	/**
 	 * Gibt die AccountNumber zurück.
-	 * 
+	 *
 	 * @return accountNumber
 	 */
 	public String getAccountNumber() {
@@ -93,7 +92,7 @@ public class PreferenceService {
 
 	/**
 	 * Setzt die AccountNumber auf den übergebenen Wert.
-	 * 
+	 *
 	 * @param accountNumber
 	 */
 	public void setAccountNumber(String accountNumber) {
@@ -103,7 +102,7 @@ public class PreferenceService {
 
 	/**
 	 * Gibt den BackupAccount als JSON String zurück.
-	 * 
+	 *
 	 * @return backupAccount
 	 */
 	public String getBackupAccount() {
@@ -113,7 +112,7 @@ public class PreferenceService {
 
 	/**
 	 * Setzt den BackupAccount auf den übergebenen Wert.
-	 * 
+	 *
 	 * @param backupAccount
 	 */
 	public void setBackupAccount(String backupAccount) {
@@ -123,8 +122,8 @@ public class PreferenceService {
 
 	/**
 	 * Gibt die Server IP zurück.
-	 * 
-	 * @return
+	 *
+	 * @return serverIP
 	 */
 	public String getServerIP() {
 		loadProperties();
@@ -133,14 +132,14 @@ public class PreferenceService {
 
 	/**
 	 * Setzt die Server IP auf den übergebenen Wert.
-	 * 
+	 *
 	 * @param serverIP
 	 */
 	public void setServerIP(String serverIP) {
 		this.serverIP = serverIP;
 		saveParamChangesAsXML();
 	}
-	
-	
-	
+
+
+
 }

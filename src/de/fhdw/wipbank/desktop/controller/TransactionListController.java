@@ -33,6 +33,8 @@ import javafx.scene.paint.Color;
 /**
  * TransactionListController
  * Quelle: https://www.turais.de/how-to-custom-listview-cell-in-java
+ *
+ * @author Daniel Sawenko
  */
 public class TransactionListController implements Initializable, AccountAsyncTask.OnAccountUpdateListener {
 

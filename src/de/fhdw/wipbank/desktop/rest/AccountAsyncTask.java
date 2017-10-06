@@ -23,6 +23,8 @@ import javafx.util.Pair;
 
 /**
  * Dient dem Aufruf der REST-Schnittstelle /account/
+ *
+ * @author Daniel Sawenko
  */
 public class AccountAsyncTask {
 
