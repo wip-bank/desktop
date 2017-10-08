@@ -93,7 +93,7 @@ public class PreferenceService {
 	/**
 	 * Setzt die AccountNumber auf den übergebenen Wert.
 	 *
-	 * @param accountNumber
+	 * @param accountNumber AccountNumber
 	 */
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
@@ -113,7 +113,7 @@ public class PreferenceService {
 	/**
 	 * Setzt den BackupAccount auf den übergebenen Wert.
 	 *
-	 * @param backupAccount
+	 * @param backupAccount BackupAcount
 	 */
 	public void setBackupAccount(String backupAccount) {
 		this.backupAccount = backupAccount;
@@ -133,7 +133,7 @@ public class PreferenceService {
 	/**
 	 * Setzt die Server IP auf den übergebenen Wert.
 	 *
-	 * @param serverIP
+	 * @param serverIP ServerIP
 	 */
 	public void setServerIP(String serverIP) {
 		this.serverIP = serverIP;
