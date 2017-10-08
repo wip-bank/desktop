@@ -42,9 +42,19 @@ public class TransactionAsyncTask {
 	 * die TransactionAsyncTask nutzen wollen.
 	 */
 	public interface OnTransactionExecuteListener {
+		/**
+         * Wird aufgerufen, wenn der Aufruf des REST-Service erfolgreich war.
+         * Der Listener kann nun den Erfolgsfall weiter verarbeiten.
+         */
 		void onTransactionSuccess();
 
-		void onTransactionError(String response);
+		/**
+         * Wird aufgerufen, wenn der Aufruf des REST-Service nicht erfolgreich war.
+         * Der Listener kann nun den Fehlerfall weiter verarbeiten, etwa in dem die
+         * Fehlermeldung ausgegeben wird.
+         * @param errorMsg anzuzeigende Fehlermeldung
+         */
+		void onTransactionError(String errorMsg);
 	}
 
 	/**

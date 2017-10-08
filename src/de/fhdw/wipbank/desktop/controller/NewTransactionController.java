@@ -117,8 +117,8 @@ public class NewTransactionController implements Initializable, TransactionAsync
 	 * @see de.fhdw.wipbank.desktop.rest.TransactionAsyncTask.OnTransactionExecuteListener#onTransactionError(java.lang.String)
 	 */
 	@Override
-	public void onTransactionError(String response) {
-		new CustomAlert(AlertType.ERROR, response, ButtonType.OK).show();
+	public void onTransactionError(String errorMsg) {
+		new CustomAlert(AlertType.ERROR, errorMsg, ButtonType.OK).show();
 
 	}
 
